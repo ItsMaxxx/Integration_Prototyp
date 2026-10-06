@@ -1,0 +1,49 @@
+.protokolltabelle__aktionen {
+  white-space: nowrap;
+  text-align: right;
+}
+
+.vorschlaege {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 280px;
+}
+
+.vorschlag {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: left;
+  font: inherit;
+  font-size: 0.88rem;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--karte-rand);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  cursor: pointer;
+}
+.vorschlag:hover {
+  border-color: var(--akzent);
+}
+
+.vorschlag__score {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--gelb);
+  min-width: 2.6rem;
+}
+
+.vorschlag__ok {
+  margin-left: auto;
+  color: var(--akzent);
+  opacity: 0;
+}
+.vorschlag:hover .vorschlag__ok {
+  opacity: 1;
+}
+
+.vorschlaege select {
+  max-width: 320px;
+}

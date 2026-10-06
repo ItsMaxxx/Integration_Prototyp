@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-1: #06141f;
+  --bg-2: #0b2131;
+  --karte: rgba(255, 255, 255, 0.045);
+  --karte-rand: rgba(255, 255, 255, 0.09);
+  --text: #e2e8f0;
+  --text-leise: #8fa3b8;
+  --akzent: #3ddc97;
+  --akzent-dunkel: #1f9e6a;
+  --blau: #4aa3df;
+  --gruen: #3ddc97;
+  --gelb: #f5c451;
+  --rot: #ff6464;
+  --grau: #6f8296;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: linear-gradient(135deg, var(--bg-1) 0%, #0a1d2c 40%, var(--bg-2) 70%, #050f17 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+}
+
+body {
+  position: relative;
+  z-index: 0;
+}
+
+/* Grüner Glow oben rechts (Akzent "nachgewiesen") */
+body::before {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(120px);
+  opacity: 0.14;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--akzent) 0%, transparent 75%);
+  top: -200px;
+  right: -150px;
+}
+
+/* Blauer Glow unten links */
+body::after {
+  content: '';
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(120px);
+  opacity: 0.18;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #0b5b8e 0%, transparent 75%);
+  bottom: -200px;
+  left: -150px;
+}
+
+a {
+  color: var(--blau);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 0.25rem;
+}
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 0.75rem;
+}
+h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.seite {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+.seite__kopf {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.untertitel {
+  color: var(--text-leise);
+  margin: 0;
+}
+
+.karte {
+  background: var(--karte);
+  border: 1px solid var(--karte-rand);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.25rem;
+  backdrop-filter: blur(6px);
+}
+
+.raster {
+  display: grid;
+  gap: 1rem;
+}
+.raster--2 {
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+}
+.raster--4 {
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--karte-rand);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn--primaer {
+  background: var(--akzent);
+  border-color: var(--akzent);
+  color: #062016;
+  font-weight: 600;
+}
+.btn--primaer:hover {
+  background: #5ce8aa;
+}
+.btn--klein {
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+}
+.btn--gefahr {
+  color: var(--rot);
+}
+
+/* Formulare */
+input,
+select,
+textarea {
+  font: inherit;
+  color: var(--text);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--karte-rand);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+}
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid rgba(61, 220, 151, 0.4);
+  border-color: var(--akzent);
+}
+select option {
+  background: var(--bg-2);
+}
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--text-leise);
+}
+
+/* Tabellen */
+.tabelle-wrapper {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-leise);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--karte-rand);
+  white-space: nowrap;
+}
+td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: top;
+}
+tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+td input,
+td select {
+  width: 100%;
+  min-width: 70px;
+  padding: 0.3rem 0.45rem;
+}
+
+/* Hinweise */
+.meldung {
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border: 1px solid;
+}
+.meldung--fehler {
+  background: rgba(255, 100, 100, 0.1);
+  border-color: rgba(255, 100, 100, 0.4);
+  color: #ffb3b3;
+}
+.meldung--erfolg {
+  background: rgba(61, 220, 151, 0.1);
+  border-color: rgba(61, 220, 151, 0.4);
+  color: #a8f0cf;
+}
+.meldung--info {
+  background: rgba(74, 163, 223, 0.1);
+  border-color: rgba(74, 163, 223, 0.4);
+  color: #b9dcf3;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-leise);
+  white-space: nowrap;
+}
+.chip--gruen {
+  background: rgba(61, 220, 151, 0.15);
+  color: var(--gruen);
+}
+.chip--gelb {
+  background: rgba(245, 196, 81, 0.15);
+  color: var(--gelb);
+}
+.chip--rot {
+  background: rgba(255, 100, 100, 0.15);
+  color: var(--rot);
+}
+.chip--blau {
+  background: rgba(74, 163, 223, 0.15);
+  color: var(--blau);
+}
+
+.leise {
+  color: var(--text-leise);
+  font-size: 0.85rem;
+}
+.leer {
+  color: var(--text-leise);
+  text-align: center;
+  padding: 1.5rem;
+}
+.laden {
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-leise);
+}
+.zeile {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .raster--2 {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "proofm-prototyp",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev": "concurrently -n backend,frontend -c blue,magenta \"npm run dev -w backend\" \"npm run dev -w frontend\"",
+    "build": "npm run build -w frontend",
+    "samples": "npm run samples -w backend"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.5"
+  }
+}

@@ -1,0 +1,28 @@
+.kennzahl__titel {
+  color: var(--text-leise);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+
+.kennzahl__wert {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.3rem 0 0.15rem;
+}
+
+.kennzahl__einheit {
+  font-size: 1rem;
+  color: var(--text-leise);
+  margin-left: 0.2rem;
+}
+
+.kennzahl__hinweis {
+  color: var(--text-leise);
+  font-size: 0.82rem;
+}
+
+.kennzahl--gruen .kennzahl__wert { color: var(--gruen); }
+.kennzahl--gelb .kennzahl__wert { color: var(--gelb); }
+.kennzahl--rot .kennzahl__wert { color: var(--rot); }

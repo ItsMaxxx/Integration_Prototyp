@@ -1,0 +1,25 @@
+.ampel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.ampel__punkt {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ampel--gruen { color: var(--gruen); }
+.ampel--gelb { color: var(--gelb); }
+.ampel--rot { color: var(--rot); }
+.ampel--grau { color: var(--grau); }
+
+.ampel--gruen .ampel__punkt { background: var(--gruen); box-shadow: 0 0 8px var(--gruen); }
+.ampel--gelb .ampel__punkt { background: var(--gelb); box-shadow: 0 0 8px var(--gelb); }
+.ampel--rot .ampel__punkt { background: var(--rot); box-shadow: 0 0 8px var(--rot); }
+.ampel--grau .ampel__punkt { background: var(--grau); }

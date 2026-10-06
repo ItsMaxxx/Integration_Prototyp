@@ -1,0 +1,138 @@
+.dashboard__kennzahlen {
+  margin-bottom: 1rem;
+}
+
+.dashboard__eskalation {
+  margin-top: 1rem;
+}
+
+/* Objektkarten */
+.objektliste {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.objektkarte {
+  display: block;
+  color: var(--text);
+  padding: 0.8rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.15);
+  transition: border-color 0.15s;
+}
+.objektkarte:hover {
+  text-decoration: none;
+  border-color: rgba(61, 220, 151, 0.4);
+}
+
+.objektkarte__kopf {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.objektkarte__zahlen {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.scorebalken {
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 0.55rem 0 0.35rem;
+  overflow: hidden;
+}
+.scorebalken__fuellung {
+  height: 100%;
+  border-radius: 3px;
+}
+.scorebalken__fuellung--gruen { background: var(--gruen); }
+.scorebalken__fuellung--gelb { background: var(--gelb); }
+.scorebalken__fuellung--rot { background: var(--rot); }
+
+/* Wochenchart (eine Serie, Akzentfarbe) */
+.wochenchart {
+  margin: 0.5rem 0 1rem;
+}
+
+.wochenchart__flaeche {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 170px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  /* dezente Rasterlinien */
+  background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 100% 25%;
+}
+
+.wochenchart__spalte {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  position: relative;
+  cursor: default;
+}
+
+.wochenchart__balken {
+  width: 60%;
+  max-width: 34px;
+  min-height: 2px;
+  background: var(--akzent);
+  border-radius: 4px 4px 0 0;
+  transition: opacity 0.15s;
+}
+.wochenchart__spalte:hover .wochenchart__balken {
+  opacity: 0.8;
+}
+
+.wochenchart__wert {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.wochenchart__tooltip {
+  position: absolute;
+  bottom: calc(100% - 20px);
+  background: #0e2638;
+  border: 1px solid var(--karte-rand);
+  border-radius: 8px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.wochenchart__achse {
+  display: flex;
+  gap: 2px;
+  margin-top: 0.35rem;
+}
+.wochenchart__achse span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--text-leise);
+}
+
+/* Neues Objekt */
+.neues-objekt {
+  margin-bottom: 1rem;
+}
+.neues-objekt__felder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}

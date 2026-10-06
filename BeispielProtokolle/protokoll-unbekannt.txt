@@ -1,0 +1,3 @@
+Prüfbericht Druckluftkompressor
+Prüfdatum: 02.10.2026
+Kompressor Werkstatt geprüft, Sicherheitsventil in Ordnung.

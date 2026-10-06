@@ -1,0 +1,65 @@
+.objekt__kennzahlen {
+  margin-bottom: 1rem;
+}
+
+.objekt__upload {
+  margin-bottom: 1rem;
+}
+
+.upload-ergebnisse {
+  list-style: none;
+  padding: 0;
+  margin: 0.9rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: -1px;
+  flex-wrap: wrap;
+}
+
+.tabs__tab {
+  font: inherit;
+  font-weight: 500;
+  color: var(--text-leise);
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+}
+.tabs__tab:hover {
+  color: var(--text);
+}
+.tabs__tab--aktiv {
+  color: var(--text);
+  background: var(--karte);
+  border-color: var(--karte-rand);
+}
+
+.filterleiste {
+  margin-bottom: 0.75rem;
+}
+
+.monatszeile td {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--blau);
+  padding-top: 1rem;
+  border-bottom: 1px solid rgba(74, 163, 223, 0.25);
+}
+tbody tr.monatszeile:hover {
+  background: transparent;
+}
+
+.lv-dokumente {
+  margin-top: 1.25rem;
+}

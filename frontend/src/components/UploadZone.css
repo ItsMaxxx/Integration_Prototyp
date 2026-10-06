@@ -1,0 +1,28 @@
+.upload-zone {
+  border: 2px dashed rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  padding: 2rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.upload-zone:hover,
+.upload-zone--aktiv {
+  border-color: var(--akzent);
+  background: rgba(61, 220, 151, 0.06);
+}
+
+.upload-zone--aus {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.upload-zone__icon {
+  font-size: 1.8rem;
+  color: var(--akzent);
+}

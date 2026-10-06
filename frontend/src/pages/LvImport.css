@@ -1,0 +1,38 @@
+.lv-import__tipp {
+  margin: 0.9rem 0 0;
+}
+
+.lv-import__kopf {
+  justify-content: space-between;
+}
+
+.lv-import__fuss {
+  margin-top: 1rem;
+}
+
+.lv-tabelle td {
+  vertical-align: middle;
+}
+
+.lv-tabelle td select + select {
+  margin-top: 0.3rem;
+}
+
+.lv-tabelle__schmal {
+  max-width: 80px;
+}
+
+.lv-tabelle__unsicher {
+  border-color: var(--gelb);
+  color: var(--gelb);
+}
+
+.lv-tabelle__aus {
+  opacity: 0.4;
+}
+
+code {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.05rem 0.35rem;
+  border-radius: 4px;
+}

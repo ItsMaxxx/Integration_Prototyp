@@ -1,0 +1,20 @@
+### --- Eigene Ergänzungen für das Projekt --- ###
+
+# WICHTIG - enthält tausende Dateien, die jederzeit von npm install automatisch generiert werden
+node_modules/
+
+# WICHTIG - In diesem Log können Systempfade, Versionen der Software oder sogar Umgebungsvariablen stehen
+npm-debug.log*
+
+# WICHTIG - Datenbank + hochgeladene LVs/Protokolle: Auf keinen Fall Kundendaten hochladen!
+# Die DB wird beim Start aus backend/model/schema.sql automatisch neu angelegt.
+backend/data/
+*.db
+*.db-journal
+
+# WICHTIG - Umgebungsvariablen (Session-Secret, Anthropic-API-Key)
+.env
+.env.local
+
+# Build-Ausgabe des Frontends
+frontend/dist/

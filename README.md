@@ -18,32 +18,38 @@ Bewusst **nicht** enthalten: Beschaffungsstrecke, Auftraggeber-Lesezugang, ERP-/
 
 ---
 
-## Quickstart (Docker Desktop)
+## Quickstart (Docker Desktop + Windows)
 
+1: Im Projektordner die .env-Datei aus dem Beispiel erstellen
 ```bash
 copy .env.example .env      # macOS/Linux: cp .env.example .env
-docker compose up --build -d
 ```
 
+2: Danach muss der Seed in der .env mit einem richtigen ersetzt werden, dafür im Terminal diesen befehl eingeben um einen zufälligen zu erstellen
+```bash
+[guid]::NewGuid().ToString() + [guid]::NewGuid().ToString()
+```
+
+3: Docker Desktop starten. Eigentlich installiert Docker die relevanten Images beim ersten Start des Programms selbst (wenn eine Intenetverbindung existiert), aber zur Sicherheit wären hier vorab die Images, die es braucht.:
+```
+'docker pull node:24-alpine' (Backend (backend/Dockerfile) und Frontend-Build (frontend/Dockerfile, Stage builder))
+'docker pull nginx:alpine' (Liefert das gebaute Frontend aus (frontend/Dockerfile))
+```
+
+4: (Erstmal Docker Desktop starten sodass die relevanten Images laufen) Bauen + Starten des Programms
+```
+docker compose up -d --build
+```
+
+PROOFM ist als Website gebaut (noch lokal). Mit diesen Testanmeldedaten meldet man sich als unsere Hauptpersona Martin Schneider an. Er betreut mehrere Gebäude mit hunderten Wartungspflichten (Im PoC 2). Die Pflichten stehen im Leistungsverzeichnis (LV), die Nachweise kommen als PDF per Mail (das eben noch nicht). Die Verbindung zwischen beiden stellt er heute von Hand her, mit Excel, Outlook und Fileshare. Fehlt im entscheidenden Moment ein Nachweis, wird eine Vertragsstrafe fällig, auch wenn die Wartung tatsächlich erledigt wurde.
+
+PROOFM schließt genau diese Lücke: Soll (LV) und Ist (Protokoll) werden automatisch verbunden.
 → **http://localhost:8080** · Login: `objektleiter@proofm.de` / `proofm2026` (aus der `.env`)
 
 Beim ersten Start werden automatisch zwei Demo-Objekte mit Historie angelegt. Im Bürohaus sind einige Wartungen
 bewusst **überfällig**, damit Ampel und Eskalation etwas zeigen.
 
 Zurücksetzen (Datenbank + Uploads löschen): `docker compose down -v`
-
-### Lokal ohne Docker
-
-Voraussetzung: Node.js ≥ 22.13 (wegen des eingebauten `node:sqlite`).
-
-```bash
-npm install
-npm run dev        # Backend :3000 + Vite :5173 (Proxy /api → :3000)
-```
-
-→ http://localhost:5173
-
----
 
 ## Demo-Ablauf (ca. 5 Minuten)
 
@@ -56,27 +62,9 @@ dem heutigen Datum an.
    - `protokoll-bma-maengel.pdf` → automatisch Pos. 2.1 zugeordnet **und 2 Mängel** als Folgeaufgaben angelegt
    - `protokoll-rlt-mehrdeutig.txt` → passt auf RLT Nord **und** Süd → **Prüf-Warteschlange**, per Klick bestätigen
    - `protokoll-unbekannt.txt` → keine passende Pflicht → Prüf-Warteschlange ohne Vorschlag
-3. **Objekt anlegen** → `samples/lv-beispiel.xlsx` (oder `.csv`/`.pdf`) einlesen → Vorschau → übernehmen → Jahresplan.
+3. **Objekt anlegen** → `samples/lv-beispiel.xlsx` (oder `.csv`/`.pdf`) einlesen → Vorschau → übernehmen → Jahresplan (die nächsten 12 Monate) wird automatisch erstellt.
 4. Im Objekt: **Positionen & Disposition** intern/extern umstellen, Nachunternehmer zuweisen.
 5. **Nachunternehmer-Portal**: im Objekt „Öffnen ↗“ → ein Protokoll ohne Login hochladen (z. B. im Inkognito-Fenster).
-
----
-
-## KI-Unterstützung (optional)
-
-Ohne API-Key läuft alles **regelbasiert**, also über Spaltenerkennung, Fachbegriff-Synonyme (BMA ↔ Brandmeldeanlage,
-RLT ↔ Lüftung …), Positionsnummern, Normen und die Nähe zur Frist.
-
-Mit `ANTHROPIC_API_KEY` in der `.env` übernimmt **Claude** (Standard: `claude-opus-5-5`, über `CLAUDE_MODEL`
-änderbar):
-
-- LV-Extraktion aus Fließtext-PDFs bzw. gescannten PDFs (Tabellen werden weiterhin regelbasiert gelesen)
-- Zuordnung und Mängelerkennung bei Protokollen, auch bei gescannten PDFs und Fotos (PNG/JPG)
-
-Bei Fehlern oder einer Ablehnung fällt das System automatisch auf die Regeln zurück. Serverseitige Fallbacks
-(`fallbacks: "default"`) sind aktiviert.
-
-Nach dem Ändern der `.env`: `docker compose up -d --force-recreate backend`
 
 ---
 
@@ -96,7 +84,7 @@ Je offenem Termin des Objekts wird ein Score von 0 bis 1 berechnet (`backend/con
 Alles andere geht in die Prüf-Warteschlange. Das entspricht der „Konfidenzschwelle als Produktfeature“ aus der
 Risikoanalyse (Feasibility).
 
-**Compliance-Score** = nachgewiesene Termine ÷ (bis heute fällige + bereits nachgewiesene Termine).
+**Compliance-Score** (vorerst) = nachgewiesene Termine ÷ (bis heute fällige + bereits nachgewiesene Termine).
 
 ---
 
@@ -110,14 +98,10 @@ backend (Express, nur im internen Docker-Netz)
   └─ Volume proofm-data:/app/data → proofm.db (SQLite) + uploads/
 ```
 
-Aufbau angelehnt an die Projekte `dhbw-esc` (Express-MVC, Sessions, eine Funktion pro Query in
-`model/database.js`) und `maximilian-schmelzer` (Monorepo, React/Vite + nginx, Compose-Netz). **Kein Cloudflare
-Tunnel**: Erreichbar ist die Anwendung lokal über den Port 8080.
-
 ```
 Integration Prototyp/
 ├── docker-compose.yml   .env.example   package.json (npm workspaces)
-├── samples/                     Beispiel-LVs und -Protokolle
+├── BeispielProtokolle/          Beispiel-LVs und -Protokolle
 ├── backend/
 │   ├── controller/
 │   │   ├── app.js               Einstieg, Router, Seed beim ersten Start
@@ -140,8 +124,6 @@ Integration Prototyp/
 | `DB_PATH` | ✓ | SQLite-Datei (Container: `/app/data/proofm.db`) |
 | `UPLOAD_DIR` | ✓ | Ablage für LVs/Protokolle (Container: `/app/data/uploads`) |
 | `DEMO_EMAIL` / `DEMO_PASSWORT` | ✓ | Demo-Zugang, wird beim ersten Start angelegt |
-| `ANTHROPIC_API_KEY` | – | aktiviert die KI-Unterstützung |
-| `CLAUDE_MODEL` | – | Standard `claude-opus-5-5` |
 
 ### API (Auszug)
 

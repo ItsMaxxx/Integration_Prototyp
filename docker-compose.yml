@@ -1,3 +1,6 @@
+# Fester Projektname: unabhängig vom Ordnernamen (Container & Volume "integrationprototyp_proofm-data")
+name: integrationprototyp
+
 services:
   frontend:
     build: ./frontend

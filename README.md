@@ -53,18 +53,19 @@ Zurücksetzen (Datenbank + Uploads löschen): `docker compose down -v`
 
 ## Demo-Ablauf (ca. 5 Minuten)
 
-Die Beispieldateien liegen in `samples/`. Neu erzeugen mit `npm run samples`. Die Protokolldaten passen sich dabei
+Die Beispieldateien liegen in `BeispielProtokolle/`. Neu erzeugen mit `npm run samples`. Die Protokolldaten passen sich dabei
 dem heutigen Datum an.
 
 1. **Übersicht**: Compliance-Score, überfällige Termine, Eskalationsliste, Northstar-Chart.
-2. **Protokoll-Eingang** → Objekt „Bürohaus Mainzer Landstraße“ → alle vier `samples/protokoll-*` hochladen:
+2. **Protokoll-Eingang** → Objekt „Bürohaus Mainzer Landstraße“ → alle vier `BeispielProtokolle/protokoll-*` hochladen:
    - `protokoll-aufzug.pdf` → **automatisch** Pos. 1.1 zugeordnet, die Ampel springt auf grün (*Aha-Moment*)
    - `protokoll-bma-maengel.pdf` → automatisch Pos. 2.1 zugeordnet **und 2 Mängel** als Folgeaufgaben angelegt
    - `protokoll-rlt-mehrdeutig.txt` → passt auf RLT Nord **und** Süd → **Prüf-Warteschlange**, per Klick bestätigen
    - `protokoll-unbekannt.txt` → keine passende Pflicht → Prüf-Warteschlange ohne Vorschlag
 3. **Objekt anlegen** → `samples/lv-beispiel.xlsx` (oder `.csv`/`.pdf`) einlesen → Vorschau → übernehmen → Jahresplan (die nächsten 12 Monate) wird automatisch erstellt.
 4. Im Objekt: **Positionen & Disposition** intern/extern umstellen, Nachunternehmer zuweisen.
-5. **Nachunternehmer-Portal**: im Objekt „Öffnen ↗“ → ein Protokoll ohne Login hochladen (z. B. im Inkognito-Fenster).
+5. **Nachunternehmer-Portal**: im Objekt „Öffnen ↗“ → ein Protokoll ohne Login hochladen (z. B. im Inkognito-Fenster). Geplant ist auch eine Schnittstelle, sodass man die Protokolle hier automatisch hochladen kann.
+
 
 ---
 
@@ -145,5 +146,5 @@ Integration Prototyp/
 
 - Ein Benutzer und eine Rolle; Sessions liegen im Arbeitsspeicher (nach einem Neustart neu einloggen).
 - Der Jahresplan umfasst 12 Monate ab Planstart; Zyklen über 12 Monate erzeugen einen Termin im Planjahr.
-- Gescannte PDFs und Fotos sind ohne API-Key nicht lesbar und landen in der Prüf-Warteschlange.
 - Kein HTTPS. Für den Betrieb hinter einem Reverse-Proxy `cookie.secure` in `middleware/session.js` aktivieren.
+

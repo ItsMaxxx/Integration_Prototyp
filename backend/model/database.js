@@ -296,7 +296,7 @@ export const getMaengel = ({ objektId, status } = {}) => {
        JOIN objekte o ON o.id = pr.objekt_id
        LEFT JOIN positionen p ON p.id = m.position_id
        ${where.length ? "WHERE " + where.join(" AND ") : ""}
-       ORDER BY m.status, m.erstellt_am DESC`,
+       ORDER BY m.status = 'offen' DESC, m.erstellt_am DESC, m.id DESC`,
     )
     .all(...params);
 };

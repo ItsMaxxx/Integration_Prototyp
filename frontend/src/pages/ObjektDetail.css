@@ -43,6 +43,10 @@
   border-color: var(--karte-rand);
 }
 
+.tabs__erklaerung {
+  margin: 0 0 0.75rem;
+}
+
 .filterleiste {
   margin-bottom: 0.75rem;
 }

@@ -1,0 +1,129 @@
+.infobox {
+  background: rgba(74, 163, 223, 0.08);
+  border: 1px solid rgba(74, 163, 223, 0.3);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+  color: #cfe6f6;
+  font-size: 0.92rem;
+}
+
+.infobox__kopf {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.infobox__symbol {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--blau);
+  color: #04131d;
+  font-weight: 700;
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.infobox__titel {
+  flex: 1;
+  font-weight: 600;
+}
+
+.infobox__umschalter {
+  color: var(--text-leise);
+  font-size: 0.8rem;
+}
+
+.infobox__inhalt {
+  padding: 0 1rem 0.8rem 2.75rem;
+  line-height: 1.55;
+}
+.infobox__inhalt p {
+  margin: 0 0 0.5rem;
+}
+.infobox__inhalt ol,
+.infobox__inhalt ul {
+  margin: 0 0 0.5rem;
+  padding-left: 1.2rem;
+}
+.infobox__inhalt li {
+  margin-bottom: 0.2rem;
+}
+
+.infobox__mehr {
+  font-size: 0.85rem;
+}
+
+/* "?"-Symbol mit Erklärung bei Hover/Fokus */
+.infotipp {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  margin-left: 0.3rem;
+}
+
+.infotipp__knopf {
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--text-leise);
+  background: none;
+  color: var(--text-leise);
+  font: inherit;
+  font-size: 0.65rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+}
+.infotipp__knopf:hover,
+.infotipp__knopf:focus-visible {
+  border-color: var(--blau);
+  color: var(--blau);
+  outline: none;
+}
+
+.infotipp__text {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 280px;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background: #0f2a3d;
+  border: 1px solid rgba(74, 163, 223, 0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: normal;
+  text-align: left;
+}
+
+@media (max-width: 640px) {
+  .infobox__inhalt {
+    padding-left: 1rem;
+  }
+  .infotipp__text {
+    max-width: 220px;
+  }
+}

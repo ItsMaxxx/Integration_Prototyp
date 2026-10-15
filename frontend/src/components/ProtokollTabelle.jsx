@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api, datum } from '../api'
 import ZuordnungChip from './ZuordnungChip'
+import InfoTipp from './InfoTipp'
 import './ProtokollTabelle.css'
 
 // Liste eingegangener Protokolle. Mit nurPruefen=true ist sie die Prüf-Warteschlange (Human-in-the-Loop).
@@ -39,7 +40,7 @@ export default function ProtokollTabelle({ objektId, nurPruefen = false, onAende
               <th>Eingang</th>
               <th>Datei</th>
               {!objektId && <th>Objekt</th>}
-              <th>Zuordnung</th>
+              <th>Zuordnung <InfoTipp text="automatisch = sicher erkannt, bestätigt = von Hand zugeordnet, zu prüfen = wartet auf Entscheidung. Konfidenz = wie sicher sich PROOFM war (ab 80 % automatisch)." /></th>
               <th>{nurPruefen ? 'Vorschläge' : 'Wartungsposition'}</th>
               <th></th>
             </tr>

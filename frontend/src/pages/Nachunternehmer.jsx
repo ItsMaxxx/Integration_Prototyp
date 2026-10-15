@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../api'
+import InfoBox from '../components/InfoBox'
 
 const LEER = { firma: '', ansprechpartner: '', email: '', telefon: '', konditionen: '' }
 
@@ -40,6 +41,23 @@ export default function Nachunternehmer() {
           <p className="untertitel">Externe Fachfirmen für die Disposition „extern“. Der Upload-Zugang ist für sie lizenzfrei.</p>
         </div>
       </div>
+
+      <InfoBox id="nachunternehmer" hilfe="nachunternehmer">
+        <p>
+          Hier pflegen Sie die <strong>externen Fachfirmen</strong> (Nachunternehmer), die Wartungen in Ihrem Auftrag durchführen.
+        </p>
+        <ul>
+          <li>Neue Firma im Formular eintragen und auf „Hinzufügen“ klicken.</li>
+          <li>
+            Danach lässt sie sich auf der Objekt-Seite im Reiter <strong>„Positionen &amp; Disposition“</strong> einer
+            Position mit Disposition „extern“ zuweisen.
+          </li>
+          <li>
+            Protokolle reicht die Firma über den <strong>Upload-Link des Objekts</strong> ein (Objekt-Seite → „Link kopieren“).
+            Ein Konto braucht sie dafür nicht.
+          </li>
+        </ul>
+      </InfoBox>
 
       <form className="karte" onSubmit={speichern} style={{ marginBottom: '1rem' }}>
         <h2>{bearbeiteId ? 'Nachunternehmer bearbeiten' : 'Neuer Nachunternehmer'}</h2>

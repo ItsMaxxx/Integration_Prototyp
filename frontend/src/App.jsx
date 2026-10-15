@@ -9,6 +9,7 @@ import ProtokollEingang from './pages/ProtokollEingang'
 import Maengel from './pages/Maengel'
 import Nachunternehmer from './pages/Nachunternehmer'
 import Portal from './pages/Portal'
+import Hilfe from './pages/Hilfe'
 import { api } from './api'
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/eingang" element={<ProtokollEingang />} />
           <Route path="/maengel" element={<Maengel />} />
           <Route path="/nachunternehmer" element={<Nachunternehmer />} />
+          <Route path="/hilfe" element={<Hilfe />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

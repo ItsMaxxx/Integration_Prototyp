@@ -3,6 +3,7 @@ import { api, datum } from '../api'
 import UploadZone from '../components/UploadZone'
 import ProtokollTabelle from '../components/ProtokollTabelle'
 import ZuordnungChip from '../components/ZuordnungChip'
+import InfoBox from '../components/InfoBox'
 
 // Baustein 4: zentraler Eingang + Prüf-Warteschlange (Human-in-the-Loop bei niedriger Konfidenz)
 export default function ProtokollEingang() {
@@ -37,6 +38,21 @@ export default function ProtokollEingang() {
           <p className="untertitel">Protokolle einspielen – PROOFM ordnet sie automatisch der Pflicht zu, die sie erfüllen.</p>
         </div>
       </div>
+
+      <InfoBox id="eingang" hilfe="eingang">
+        <ol>
+          <li><strong>Objekt wählen</strong> und Wartungsprotokolle (PDF, Text oder Foto) in das Feld ziehen.</li>
+          <li>
+            PROOFM liest jedes Protokoll und sucht den passenden offenen Termin. Ist es sich sicher (Konfidenz ≥ 80 %),
+            wird der Termin sofort als <ZuordnungChip zuordnung="auto" /> nachgewiesen.
+          </li>
+          <li>
+            Unsichere Fälle erscheinen als <ZuordnungChip zuordnung="pruefen" /> in der <strong>Prüf-Warteschlange</strong>.
+            Dort den richtigen Vorschlag anklicken. Danach ist das Protokoll <ZuordnungChip zuordnung="manuell" />.
+          </li>
+          <li>Unten stehen <strong>alle Protokolle</strong>, die neuesten zuerst. Mit „Aufheben“ nimmt man eine falsche Zuordnung zurück.</li>
+        </ol>
+      </InfoBox>
 
       <section className="karte" style={{ marginBottom: '1rem' }}>
         <div className="zeile" style={{ marginBottom: '0.75rem' }}>
@@ -77,13 +93,15 @@ export default function ProtokollEingang() {
         <h2>Prüf-Warteschlange</h2>
         <p className="leise">
           Protokolle, die nicht sicher zugeordnet werden konnten (Konfidenz &lt; 80 % oder mehrere gleich gute Kandidaten).
-          Ein Klick auf einen Vorschlag bestätigt die Zuordnung.
+          Die Prozentzahl zeigt, wie gut der Termin passt. Ein Klick auf einen Vorschlag bestätigt die Zuordnung, und der Termin wird grün.
+          Passt keiner, über „Andere Pflicht wählen …“ einen beliebigen offenen Termin auswählen.
         </p>
         <ProtokollTabelle nurPruefen neuLadenSignal={signal} onAenderung={() => setSignal((s) => s + 1)} />
       </section>
 
       <section className="karte">
         <h2>Alle Protokolle</h2>
+        <p className="leise">Alle eingegangenen Protokolle über alle Objekte, das neueste zuerst.</p>
         <ProtokollTabelle neuLadenSignal={signal} onAenderung={() => setSignal((s) => s + 1)} />
       </section>
     </div>

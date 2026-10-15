@@ -1,0 +1,98 @@
+.hilfe__raster {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.hilfe__inhalt {
+  position: sticky;
+  top: 80px;
+}
+.hilfe__inhalt ol {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.hilfe__text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.hilfe__abschnitt {
+  line-height: 1.6;
+  scroll-margin-top: 80px;
+}
+.hilfe__abschnitt p {
+  margin: 0 0 0.6rem;
+}
+.hilfe__abschnitt ul,
+.hilfe__abschnitt ol {
+  margin: 0 0 0.6rem;
+  padding-left: 1.3rem;
+}
+.hilfe__abschnitt li {
+  margin-bottom: 0.35rem;
+}
+
+.hilfe__schritte li::marker {
+  color: var(--akzent);
+  font-weight: 700;
+}
+
+.hilfe__tabelle td {
+  vertical-align: middle;
+}
+.hilfe__tabelle td:first-child {
+  width: 150px;
+}
+
+.hilfe__begriffe {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.45rem 1.25rem;
+  margin: 0;
+}
+.hilfe__begriffe dt {
+  font-weight: 600;
+}
+.hilfe__begriffe dd {
+  margin: 0;
+  color: var(--text-leise);
+}
+
+.hilfe__frage {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.55rem 0;
+}
+.hilfe__frage summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+.hilfe__frage p {
+  margin: 0.5rem 0 0.2rem;
+  color: var(--text-leise);
+}
+
+@media (max-width: 900px) {
+  .hilfe__raster {
+    grid-template-columns: 1fr;
+  }
+  .hilfe__inhalt {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .hilfe__begriffe {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+  .hilfe__begriffe dd {
+    margin-bottom: 0.5rem;
+  }
+}

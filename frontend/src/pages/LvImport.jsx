@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, zyklusText } from '../api'
 import UploadZone from '../components/UploadZone'
+import InfoBox from '../components/InfoBox'
+import InfoTipp from '../components/InfoTipp'
 import './LvImport.css'
 
 const ZYKLEN = [1, 2, 3, 6, 12, 24, 36, 60]
@@ -66,6 +68,24 @@ export default function LvImport({ kiAktiv }) {
         </div>
       </div>
 
+      <InfoBox id="lv-import" hilfe="lv-import">
+        <ol>
+          <li>
+            <strong>LV-Datei hochladen.</strong> Das Leistungsverzeichnis ist der Vertragsteil, der alle geschuldeten Wartungen
+            auflistet (Anlage, Leistung, Norm, Intervall, Preis).
+          </li>
+          <li>
+            <strong>Vorschau prüfen.</strong> PROOFM zeigt die erkannten Positionen. Jedes Feld lässt sich direkt korrigieren. Mit dem
+            Häkchen links schließt man eine Position aus. <span className="lv-tabelle__unsicher-text">Gelb</span> markierte
+            Zyklen wurden nicht erkannt und bitte prüfen.
+          </li>
+          <li>
+            <strong>Übernehmen.</strong> Erst jetzt wird gespeichert und der <strong>Jahresplan</strong> mit allen Terminen der
+            nächsten 12 Monate erzeugt.
+          </li>
+        </ol>
+      </InfoBox>
+
       {fehler && <div className="meldung meldung--fehler">{fehler}</div>}
 
       {!analyse && (
@@ -108,9 +128,9 @@ export default function LvImport({ kiAktiv }) {
                   <th>Anlage</th>
                   <th>Leistung</th>
                   <th>Norm</th>
-                  <th>Zyklus</th>
+                  <th>Zyklus <InfoTipp text="Wartungsintervall. Bestimmt, wie viele Termine im Jahresplan entstehen (z. B. vierteljährlich = 4)." /></th>
                   <th>Preis €</th>
-                  <th>Disposition</th>
+                  <th>Disposition <InfoTipp text="intern = eigenes Personal, extern = Nachunternehmer. Lässt sich später im Objekt noch ändern." /></th>
                 </tr>
               </thead>
               <tbody>

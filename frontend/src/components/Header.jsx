@@ -7,6 +7,7 @@ const NAV = [
   { to: '/eingang', label: 'Protokoll-Eingang' },
   { to: '/maengel', label: 'Mängel' },
   { to: '/nachunternehmer', label: 'Nachunternehmer' },
+  { to: '/hilfe', label: 'Hilfe' },
 ]
 
 export default function Header({ session, onLogout }) {
@@ -32,7 +33,7 @@ export default function Header({ session, onLogout }) {
           ))}
         </nav>
         <div className="header__rechts">
-          <span className={`chip ${session.kiAktiv ? 'chip--gruen' : ''}`} title="KI-Unterstützung über Claude">
+          <span className={`chip ${session.kiAktiv ? 'chip--gruen' : ''}`} title={session.kiAktiv ? 'LV und Protokolle werden zusätzlich von der KI Claude gelesen' : 'Zuordnung nur über feste Regeln (kein KI-Schlüssel hinterlegt)'}>
             {session.kiAktiv ? 'KI aktiv' : 'Regelbasiert'}
           </span>
           <span className="header__user">{session.user?.name}</span>

@@ -27,6 +27,11 @@
   color: var(--gelb);
 }
 
+.lv-tabelle__unsicher-text {
+  color: var(--gelb);
+  font-weight: 600;
+}
+
 .lv-tabelle__aus {
   opacity: 0.4;
 }

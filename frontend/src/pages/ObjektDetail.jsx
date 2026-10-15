@@ -6,13 +6,15 @@ import Kennzahl from '../components/Kennzahl'
 import UploadZone from '../components/UploadZone'
 import ProtokollTabelle from '../components/ProtokollTabelle'
 import ZuordnungChip from '../components/ZuordnungChip'
+import InfoBox from '../components/InfoBox'
+import InfoTipp from '../components/InfoTipp'
 import './ObjektDetail.css'
 
 const TABS = [
-  ['plan', 'Jahresplan'],
-  ['positionen', 'Positionen & Disposition'],
-  ['protokolle', 'Protokolle'],
-  ['maengel', 'Mängel'],
+  ['plan', 'Jahresplan', 'Alle Wartungstermine der nächsten 12 Monate mit Ampel und Nachweis. Filter und Reihenfolge lassen sich oben einstellen.'],
+  ['positionen', 'Positionen & Disposition', 'Die Wartungspflichten aus dem LV. Legen Sie je Position fest, ob sie intern (Kostenstelle) oder extern (Nachunternehmer) erledigt wird.'],
+  ['protokolle', 'Protokolle', 'Alle eingegangenen Protokolle dieses Objekts, das neueste zuerst. „Aufheben“ nimmt eine falsche Zuordnung zurück.'],
+  ['maengel', 'Mängel', 'Aus den Protokollen erkannte Defekte als Folgeaufgaben. Offene stehen oben.'],
 ]
 
 export default function ObjektDetail() {
@@ -54,12 +56,26 @@ export default function ObjektDetail() {
         </div>
       </div>
 
+      <InfoBox id="objekt" hilfe="objekt">
+        <p>Diese Seite zeigt alles zu einem Gebäude:</p>
+        <ul>
+          <li><strong>Kennzahlen:</strong> Wie viel ist nachgewiesen, was ist überfällig, was wird bald fällig.</li>
+          <li><strong>Protokolle einspielen:</strong> Wartungsprotokolle hineinziehen. PROOFM erkennt automatisch, welchen Termin sie erfüllen, und färbt ihn grün.</li>
+          <li><strong>Reiter unten:</strong> Jahresplan, Positionen aus dem LV, alle Protokolle und erkannte Mängel.</li>
+          <li><strong>Nachunternehmer-Portal:</strong> Upload-Link für externe Firmen. Sie können damit ohne Konto Protokolle einreichen.</li>
+        </ul>
+        <p>Noch keine Termine? Oben rechts auf <strong>„LV einlesen“</strong> klicken.</p>
+      </InfoBox>
+
       <div className="raster raster--4 objekt__kennzahlen">
-        <Kennzahl titel="Compliance-Score" wert={k.score} einheit="%" farbe={k.score >= 95 ? 'gruen' : k.score >= 80 ? 'gelb' : 'rot'} hinweis={`${k.gruen} von ${k.gruen + k.rot} fälligen Terminen nachgewiesen`} />
-        <Kennzahl titel="Überfällig" wert={k.rot} farbe={k.rot ? 'rot' : 'gruen'} hinweis="Nachweis fehlt" />
-        <Kennzahl titel="Frist in ≤ 4 Wochen" wert={k.gelb} farbe={k.gelb ? 'gelb' : undefined} hinweis={`${k.grau} weitere geplant`} />
+        <Kennzahl titel="Compliance-Score" wert={k.score} einheit="%" farbe={k.score >= 95 ? 'gruen' : k.score >= 80 ? 'gelb' : 'rot'} hinweis={`${k.gruen} von ${k.gruen + k.rot} fälligen Terminen nachgewiesen`} info="Anteil der bis heute fälligen Wartungen dieses Objekts, für die ein Protokoll vorliegt. Grün ab 95 %, gelb ab 80 %." />
+        <Kennzahl titel="Überfällig" wert={k.rot} farbe={k.rot ? 'rot' : 'gruen'} hinweis="Nachweis fehlt" info="Frist abgelaufen, aber kein Protokoll zugeordnet – Pönale-Risiko." />
+        <Kennzahl titel="Frist in ≤ 4 Wochen" wert={k.gelb} farbe={k.gelb ? 'gelb' : undefined} hinweis={`${k.grau} weitere geplant`} info="Offene Termine, deren Frist in den nächsten 28 Tagen endet." />
         <div className="karte">
-          <div className="kennzahl__titel">Nachunternehmer-Portal</div>
+          <div className="kennzahl__titel">
+            Nachunternehmer-Portal
+            <InfoTipp text="Diesen Link an externe Firmen schicken. Sie können damit ohne Konto Protokolle für dieses Objekt hochladen, sehen aber keine Fristen oder Preise." />
+          </div>
           <p className="leise">Upload-Link ohne Login – Protokolle laufen direkt in die Zuordnung.</p>
           <div className="zeile">
             <button className="btn btn--klein" onClick={() => navigator.clipboard?.writeText(portalLink)}>Link kopieren</button>
@@ -71,14 +87,15 @@ export default function ObjektDetail() {
       <ProtokollUpload objektId={id} onFertig={laden} />
 
       <div className="tabs">
-        {TABS.map(([schluessel, label]) => (
-          <button key={schluessel} className={`tabs__tab ${tab === schluessel ? 'tabs__tab--aktiv' : ''}`} onClick={() => setTab(schluessel)}>
+        {TABS.map(([schluessel, label, erklaerung]) => (
+          <button key={schluessel} className={`tabs__tab ${tab === schluessel ? 'tabs__tab--aktiv' : ''}`} onClick={() => setTab(schluessel)} title={erklaerung}>
             {label}
           </button>
         ))}
       </div>
 
       <section className="karte">
+        <p className="leise tabs__erklaerung">{TABS.find(([s]) => s === tab)[2]}</p>
         {tab === 'plan' && <Jahresplan termine={objekt.termine} />}
         {tab === 'positionen' && <Positionen objekt={objekt} onAenderung={laden} />}
         {tab === 'protokolle' && <ProtokollTabelle objektId={id} onAenderung={laden} />}
@@ -107,6 +124,10 @@ function ProtokollUpload({ objektId, onFertig }) {
   return (
     <section className="karte objekt__upload">
       <h2>Protokolle einspielen</h2>
+      <p className="leise">
+        PDF, Text oder Foto eines Wartungsprotokolls hochladen. Sichere Treffer werden sofort als Nachweis verbucht, unsichere landen zur
+        Bestätigung in der <Link to="/eingang">Prüf-Warteschlange</Link>.
+      </p>
       <UploadZone
         mehrere
         accept=".pdf,.txt,.png,.jpg,.jpeg"
@@ -142,9 +163,12 @@ function ProtokollUpload({ objektId, onFertig }) {
 function Jahresplan({ termine }) {
   const [status, setStatus] = useState('')
   const [gewerk, setGewerk] = useState('')
+  const [neuesteZuerst, setNeuesteZuerst] = useState(true)
   const gewerke = useMemo(() => [...new Set(termine.map((t) => t.gewerk).filter(Boolean))].sort(), [termine])
 
+  // Backend liefert aufsteigend nach Frist; Standard ist die neueste Frist oben
   const gefiltert = termine.filter((t) => (!status || t.ampel === status) && (!gewerk || t.gewerk === gewerk))
+  if (neuesteZuerst) gefiltert.reverse()
 
   // Nach Monat gruppieren
   const monate = []
@@ -168,6 +192,10 @@ function Jahresplan({ termine }) {
           <option value="">Alle Gewerke</option>
           {gewerke.map((g) => <option key={g}>{g}</option>)}
         </select>
+        <select value={neuesteZuerst ? 'neu' : 'alt'} onChange={(e) => setNeuesteZuerst(e.target.value === 'neu')} title="Reihenfolge nach Frist">
+          <option value="neu">Neueste Frist zuerst</option>
+          <option value="alt">Älteste Frist zuerst</option>
+        </select>
         <span className="leise">{gefiltert.length} Termine</span>
       </div>
       {gefiltert.length === 0 ? (
@@ -183,7 +211,7 @@ function Jahresplan({ termine }) {
                 <th>Anlage / Leistung</th>
                 <th>Gewerk</th>
                 <th>Verantwortlich</th>
-                <th>Nachweis</th>
+                <th>Nachweis <InfoTipp text="Das zugeordnete Protokoll, das diese Wartung belegt. Klick öffnet die Datei." /></th>
               </tr>
             </thead>
             <tbody>
@@ -261,9 +289,9 @@ function Positionen({ objekt, onAenderung }) {
               <th>Pos.</th>
               <th>Anlage / Leistung</th>
               <th>Norm</th>
-              <th>Zyklus</th>
+              <th>Zyklus <InfoTipp text="Wie oft die Wartung fällig ist. Daraus werden die Termine im Jahresplan berechnet." /></th>
               <th>Preis</th>
-              <th>Disposition</th>
+              <th>Disposition <InfoTipp text="Wer erledigt die Wartung? intern = eigenes Personal (Kostenstelle angeben), extern = Nachunternehmer (Firma auswählen)." /></th>
               <th>Kostenstelle / Nachunternehmer</th>
               <th></th>
             </tr>

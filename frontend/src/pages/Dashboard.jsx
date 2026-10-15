@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import { api, datum } from '../api'
 import Ampel from '../components/Ampel'
 import Kennzahl from '../components/Kennzahl'
+import InfoBox from '../components/InfoBox'
+import InfoTipp from '../components/InfoTipp'
 import './Dashboard.css'
 
 export default function Dashboard() {
@@ -29,6 +31,19 @@ export default function Dashboard() {
         <button className="btn btn--primaer" onClick={() => setNeu(!neu)}>+ Objekt anlegen</button>
       </div>
 
+      <InfoBox id="uebersicht" titel="Willkommen bei PROOFM – so starten Sie" hilfe="ablauf">
+        <p>
+          PROOFM prüft, ob jede vertraglich geschuldete Wartung rechtzeitig durch ein Protokoll <strong>nachgewiesen</strong> ist.
+          Der typische Ablauf:
+        </p>
+        <ol>
+          <li><strong>Objekt anlegen</strong> (Button rechts oben) und das <strong>Leistungsverzeichnis (LV)</strong> hochladen. Daraus entsteht der Jahresplan.</li>
+          <li><strong>Protokolle hochladen</strong> (auf der Objekt-Seite oder im <Link to="/eingang">Protokoll-Eingang</Link>). PROOFM ordnet sie automatisch dem passenden Termin zu.</li>
+          <li><strong>Ampel beobachten:</strong> grün = nachgewiesen, gelb = Frist in ≤ 4 Wochen, rot = überfällig. Unten stehen alle Eskalationen.</li>
+        </ol>
+        <p>Zwei Demo-Objekte sind bereits angelegt. Ein Klick auf ein Objekt zeigt Details.</p>
+      </InfoBox>
+
       {neu && <NeuesObjekt onFertig={() => { setNeu(false); laden() }} />}
 
       <div className="raster raster--4 dashboard__kennzahlen">
@@ -37,20 +52,22 @@ export default function Dashboard() {
           wert={portfolioScore}
           einheit="%"
           hinweis="Nachgewiesen ÷ fällige Termine, Ø aller Objekte"
+          info="Anteil der bis heute fälligen Wartungen, für die ein Protokoll vorliegt. 100 % = nichts überfällig. Grün ab 95 %, gelb ab 80 %."
           farbe={portfolioScore >= 95 ? 'gruen' : portfolioScore >= 80 ? 'gelb' : 'rot'}
         />
-        <Kennzahl titel="Überfällig" wert={rot} hinweis="Pönale-Risiko – Nachweis fehlt" farbe={rot ? 'rot' : 'gruen'} />
-        <Kennzahl titel="Frist in ≤ 4 Wochen" wert={gelb} hinweis="Vorwarnung vor Fristablauf" farbe={gelb ? 'gelb' : undefined} />
+        <Kennzahl titel="Überfällig" wert={rot} hinweis="Pönale-Risiko – Nachweis fehlt" farbe={rot ? 'rot' : 'gruen'} info="Termine, deren Frist abgelaufen ist, ohne dass ein Protokoll zugeordnet wurde. Hier drohen Vertragsstrafen (Pönalen)." />
+        <Kennzahl titel="Frist in ≤ 4 Wochen" wert={gelb} hinweis="Vorwarnung vor Fristablauf" farbe={gelb ? 'gelb' : undefined} info="Noch offene Termine, deren Frist in den nächsten 28 Tagen endet. Jetzt beauftragen bzw. Protokoll anfordern." />
         <Kennzahl
           titel="Zu prüfen"
           wert={daten.northstar.pruefen}
+          info="Protokolle, die PROOFM nicht sicher zuordnen konnte. Ein Mensch muss den passenden Termin bestätigen."
           hinweis={<Link to="/eingang">Prüf-Warteschlange öffnen →</Link>}
         />
       </div>
 
       <div className="raster raster--2">
         <section className="karte">
-          <h2>Objekte</h2>
+          <h2>Objekte <InfoTipp text="Alle verwalteten Gebäude. Der Balken zeigt den Compliance-Score des Objekts, der Punkt die schlechteste Ampel. Klick öffnet Jahresplan, Positionen und Protokolle." /></h2>
           {daten.objekte.length === 0 && <div className="leer">Noch keine Objekte angelegt.</div>}
           <div className="objektliste">
             {daten.objekte.map((o) => (
@@ -78,7 +95,10 @@ export default function Dashboard() {
         </section>
 
         <section className="karte">
-          <h2>Northstar: automatisch zugeordnete Nachweise pro Woche</h2>
+          <h2>
+            Northstar: automatisch zugeordnete Nachweise pro Woche
+            <InfoTipp text="Wie viele Protokolle PROOFM je Kalenderwoche ganz ohne menschliche Prüfung zugeordnet hat – die zentrale Erfolgskennzahl. Über einen Balken fahren zeigt Details." />
+          </h2>
           <Wochenchart wochen={daten.northstar.wochen} />
           <p className="leise">
             Automatisierungsgrad:{' '}
@@ -91,6 +111,7 @@ export default function Dashboard() {
 
       <section className="karte dashboard__eskalation">
         <h2>Eskalationen</h2>
+        <p className="leise">Alle überfälligen Termine und alle mit Frist in den nächsten 4 Wochen – sortiert nach Dringlichkeit (am längsten überfällig zuerst).</p>
         {daten.eskalationen.length === 0 ? (
           <div className="leer">Keine offenen Fristen in den nächsten vier Wochen. 🎉</div>
         ) : (

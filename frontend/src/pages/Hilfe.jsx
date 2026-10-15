@@ -23,8 +23,13 @@ export default function Hilfe() {
   const { hash } = useLocation()
 
   // Sprungmarken (/hilfe#eingang) nach dem Rendern anspringen
+  // Wichtig: nichts zurückgeben – neuere Browser (Edge/Chrome ab ~150) liefern bei scrollTo ein Promise,
+  // das React sonst beim Verlassen der Seite als Aufräumfunktion aufruft → Absturz, weiße Seite
   useEffect(() => {
-    if (!hash) return window.scrollTo(0, 0)
+    if (!hash) {
+      window.scrollTo(0, 0)
+      return
+    }
     document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }, [hash])
 

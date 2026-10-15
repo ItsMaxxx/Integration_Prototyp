@@ -1,0 +1,9 @@
+# Gilt für beide Images (Build-Kontext ist das Projekt-Root)
+**/node_modules
+**/npm-debug.log
+frontend/dist
+backend/data
+.env
+.git
+samples
+BeispielProtokolle

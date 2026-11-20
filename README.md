@@ -69,6 +69,17 @@ dem heutigen Datum an.
 
 ---
 
+## Online hosten (Render)
+
+Das `Dockerfile` im Projekt-Root ist eine Ein-Container-Variante: Das Backend liefert die gebaute Oberfläche selbst aus,
+nginx entfällt. Render: **New Web Service** → dieses Repo → Language **Docker** → Instance Type **Free** →
+Umgebungsvariablen `SESSION_SECRET`, `DEMO_EMAIL`, `DEMO_PASSWORT` (optional `ANTHROPIC_API_KEY`) eintragen.
+
+Im Free-Tarif schläft der Dienst nach ca. 15 Minuten ohne Besucher ein (erster Aufruf danach ~1 Minute), und die
+Datenbank wird bei jedem Neustart frisch aus den Demo-Daten angelegt.
+
+---
+
 ## Wie die Zuordnung funktioniert
 
 Je offenem Termin des Objekts wird ein Score von 0 bis 1 berechnet (`backend/controller/lib/matcher.js`):

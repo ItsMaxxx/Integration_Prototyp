@@ -10,7 +10,7 @@ export default session({
   cookie: {
     sameSite: "strict",
     httpOnly: true,
-    secure: false, // auf true setzen, sobald HTTPS aktiv ist
+    secure: process.env.COOKIE_SECURE === "true", // nur über HTTPS senden (beim Hosting gesetzt)
     maxAge: 1000 * 60 * 60 * 8, // ein Arbeitstag
   },
 });

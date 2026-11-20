@@ -63,6 +63,15 @@ app.use(portalRouter);          // Upload-Portal ohne Login
 // Unbekannte API-Routen als JSON beantworten
 app.use("/api", (req, res) => res.status(404).json({ success: false, message: "Endpunkt nicht gefunden." }));
 
+// Nur in der Ein-Container-Variante (Dockerfile im Projekt-Root): gebaute Oberfläche selbst ausliefern.
+// Im docker-compose-Betrieb übernimmt das nginx, dann ist FRONTEND_DIR nicht gesetzt.
+if (process.env.FRONTEND_DIR) {
+  const frontendDir = path.resolve(process.env.FRONTEND_DIR);
+  app.use(express.static(frontendDir));
+  // React-Router: alle anderen Pfade liefern die SPA aus
+  app.get("*", (req, res) => res.sendFile(path.join(frontendDir, "index.html")));
+}
+
 // Letzte Absicherung: unerwartete Fehler als JSON statt Stacktrace
 app.use((err, req, res, next) => {
   console.error(styleText("red", "Unerwarteter Fehler: " + err.message));

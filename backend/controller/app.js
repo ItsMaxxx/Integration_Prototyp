@@ -38,7 +38,8 @@ seedDemoBenutzer();
 seedDemo();
 
 const app = express();
-const port = process.env.APP_PORT;
+// Hoster wie Render geben den Port über PORT vor; lokal/docker-compose gilt APP_PORT
+const port = process.env.PORT || process.env.APP_PORT;
 
 // Hinter nginx: echte Client-IP für das Rate-Limiting
 app.set("trust proxy", 1);

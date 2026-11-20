@@ -74,6 +74,8 @@ dem heutigen Datum an.
 Das `Dockerfile` im Projekt-Root ist eine Ein-Container-Variante: Das Backend liefert die gebaute Oberfläche selbst aus,
 nginx entfällt. Render: **New Web Service** → dieses Repo → Language **Docker** → Instance Type **Free** →
 Umgebungsvariablen `SESSION_SECRET`, `DEMO_EMAIL`, `DEMO_PASSWORT` (optional `ANTHROPIC_API_KEY`) eintragen.
+Als `DEMO_PASSWORT` nicht den Wert aus `.env.example` nehmen – der steht öffentlich im Repo. `ANTHROPIC_API_KEY` nur
+mit Ausgabenlimit setzen: Das Upload-Portal ist ohne Login erreichbar. Den Port gibt Render über `PORT` vor.
 
 Im Free-Tarif schläft der Dienst nach ca. 15 Minuten ohne Besucher ein (erster Aufruf danach ~1 Minute), und die
 Datenbank wird bei jedem Neustart frisch aus den Demo-Daten angelegt.
